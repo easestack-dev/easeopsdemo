@@ -8,13 +8,16 @@ SCRIPTPATH=$(pwd -P)
 popd > /dev/null
 SCRIPTFILE=$(basename $0)
 
-COLOR_NONE='\033[0m'
-COLOR_INFO='\033[0;36m'
-COLOR_ERRO='\033[1;31m'
-HINT_ARROW="$(tput bold)☞ $(tput sgr0)"
+function info() {
+  NOW=$(date '+%Y/%m/%d %H:%M:%S')
+  echo -e "${NOW} - $1"
+}
 
-function info() { echo -e "${HINT_ARROW}${COLOR_INFO}${1}${COLOR_NONE}"; }
-function erro() { echo -e "${HINT_ARROW}${COLOR_ERRO}${1}${COLOR_NONE}"; }
+function log() {
+  echo "================================================================================"
+  info "$1"
+  echo ""
+}
 
 ################################################################################
 
@@ -22,18 +25,24 @@ IMAGE_NAME="nightwatch-demo"
 DOCKER_IMAGE="dockerhub.megaease.com/megaease/${IMAGE_NAME}"
 DOCKER_CONTAINER_NAME="demo-app"
 
-function stop_instance() {
+IMAGE_VERSION=""
 
-    info "Stop Instance"
-    sleep 1
-    docker rm -f $(docker ps -a | grep ${DOCKER_CONTAINER_NAME} | awk '{print $1}') || /bin/true
-
+function showUsage() {
+    echo -e ""
+    echo -e "${SCRIPTFILE} [-h] -v <ImageVersion>"
+    echo -e ""
+    echo -e "  -h : Show this message"
+    echo -e "  -v : Specify the image version"
+    echo -e ""
 }
 
-function start_instance() {
+function stopInstance() {
+    log "Stop Instance"
+    docker rm -f $(docker ps -a | grep ${DOCKER_CONTAINER_NAME} | awk '{print $1}') || /bin/true
+}
 
-    info "Pull Docker Image"
-    sleep 2
+function startInstance() {
+    log "Pull Docker Image"
     IMAGE=""
     if [ -z "${IMAGE_VERSION}" ]; then
         docker rmi $(docker images | grep 'nightwatch-demo') || /bin/true
@@ -43,11 +52,16 @@ function start_instance() {
     fi
     docker pull ${IMAGE}
 
-    info "Start Instance"
-    sleep 3
+    log "Start Instance"
     docker run --name ${DOCKER_CONTAINER_NAME} -d -p 80:80 ${IMAGE}
-
 }
 
-stop_instance
-start_instance
+while getopts  'hv:' flag; do
+    case "${flag}" in
+        h) showUsage; exit ;;
+        v) IMAGE_VERSION="${OPTARG}";;
+    esac
+done
+
+stopInstance
+startInstance
