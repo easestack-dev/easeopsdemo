@@ -1,0 +1,13 @@
+name: easeopsdemo
+
+build:
+  image: nightwatch-demo
+  script: release/build-image.sh
+
+deploy:
+  - environment: easeopsdemo
+    script: release/deploy.sh
+
+notification:
+  emails:
+    - g7tianyi@easestack.com
