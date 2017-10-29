@@ -1,12 +1,14 @@
 name: easeopsdemo
 
-build:
-  image: megaease/nightwatch-demo
+image:
+  name: megaease/nightwatch-demo
   script: release/build-image.sh
+  publish: true
 
-deploy:
+deployments:
   - environment: easeopsdemo
     script: release/deploy.sh
+    name: easeopsdemo
 
 notification:
   emails:
