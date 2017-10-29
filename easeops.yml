@@ -1,7 +1,7 @@
 name: easeopsdemo
 
 build:
-  image: nightwatch-demo
+  image: megaease/nightwatch-demo
   script: release/build-image.sh
 
 deploy:
