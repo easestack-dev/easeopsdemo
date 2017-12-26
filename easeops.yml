@@ -1,5 +1,9 @@
 name: easeopsdemo
 
+version:
+  major: 0
+  minor: 0
+
 images:
   - name: megaease/nightwatch-demo
     script: release/build-image.sh
