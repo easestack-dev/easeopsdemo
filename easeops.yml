@@ -4,25 +4,25 @@ images:
   - name: megaease/nightwatch-demo
     script: release/build-image.sh
     publish: true
-    webhook:
-      url: http://localhost:24242/123
-      payload: >-
-        {
-          "image_name": "{{ image_name }}",
-          "image_version": "{{ image_version }}"
-        }
+    webhooks:
+      - url: http://localhost:24242/123
+        payload: >-
+          {
+            "image_name": "{{ image_name }}",
+            "image_version": "{{ image_version }}"
+          }
 
 deployments:
   - environment: easeopsdemo
     script: release/deploy.sh
     name: easeopsdemo
-    webhook:
-      url: http://localhost:24242/456
-      payload: >-
-        {
-          "image_name": "{{ image_name }}",
-          "image_version": "{{ image_version }}"
-        }
+    webhooks:
+      - url: http://localhost:24242/456
+        payload: >-
+          {
+            "image_name": "{{ image_name }}",
+            "image_version": "{{ image_version }}"
+          }
 
 notification:
   emails:
