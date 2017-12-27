@@ -20,6 +20,14 @@ function erro() { echo -e "${HINT_ARROW}${COLOR_ERRO}${1}${COLOR_NONE}"; }
 
 info "Build Docker Image megaease/nightwatch-demo"
 
+touch /tmp/abc
+echo "${IMAGE_NAME}" >> /tmp/abc
+echo "${IMAGE_VERSION}" >> /tmp/abc
+echo "${IMAGE_REGISTRY}" >> /tmp/abc
+echo "${REPOSITORY_DIR}" >> /tmp/abc
+echo "${SOURCE_DIR}" >> /tmp/abc
+echo "${ROOTFS_DIR}" >> /tmp/abc
+
 DOCKER_DIR=${SCRIPTPATH}/../rootfs
 cd ${DOCKER_DIR}
 mkdir -p demoapp
