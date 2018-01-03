@@ -2,7 +2,7 @@ name: easeopsdemo
 
 version:
   major: 0
-  minor: 0
+  minor: 1
 
 images:
   - name: megaease/nightwatch-demo
